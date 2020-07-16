@@ -37,34 +37,34 @@ function todos(state, action) {
 
 
         case types.DELETE_TODO:
-            return state.filter(function (todo) {
-                return todo.id !== parseInt(action.id, 10);
-            });
-        case types.EDIT_TODO:
-            return state.map(function (todo) {
-                todo.id === action.id ? Object.assign({}, todo, {text: action.text}) : todo
-            });
-        case
-        types.COMPLETE_TODO
-        :
-            return state.map(function (todo) {
-                return todo.id === parseInt(action.id, 10) ? Object.assign({}, todo, {completed: !todo.completed}) : todo;
-            });
-        case
-        types.COMPLETE_ALL
-        :
-            var areAllMarked = state.every(function (todo) {
-                todo.completed
-            });
-            return state.map(function (todo) {
-                return Object.assign({}, todo, {completed: !areAllMarked});
-            });
-        case
-        types.CLEAR_COMPLETED
-        :
-            return state.filter(function (todo) {
-                return todo.completed === false;
-            });
+            return {
+                ...state,
+                ...state.todoList.filter( todo => {
+                    return todo.id !== parseInt(action.id, 10);
+                })
+            }
+        // case types.EDIT_TODO:
+        //     return state.map(function (todo) {
+        //         todo.id === action.id ? Object.assign({}, todo, {text: action.text}) : todo
+        //     });
+        case types.COMPLETE_TODO:
+            return {
+                ...state,
+                ...state.todoList.map(todo => {
+                    return todo.id === parseInt(action.id, 10) ? Object.assign({}, todo, {completed: !todo.completed}) : todo;
+                })
+            }
+        // case types.COMPLETE_ALL:
+        //     var areAllMarked = state.every(function (todo) {
+        //         todo.completed
+        //     });
+        //     return state.map(function (todo) {
+        //         return Object.assign({}, todo, {completed: !areAllMarked});
+        //     });
+        // case types.CLEAR_COMPLETED :
+        //     return state.filter(function (todo) {
+        //         return todo.completed === false;
+        //     });
 
         default:
             return state
