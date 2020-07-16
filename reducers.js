@@ -1,57 +1,52 @@
-const initialState = [
-    {
-        text: 'React',
-        completed: 'false',
-        id: 0
-    },
-    {
-        text: 'Hooks',
-        completed: 'false',
-        id: 1
-    },
-    {
-        text: 'Redux',
-        completed: 'false',
-        id: 2
-    }
-]
+var initialState = [
+  {
+    text: 'Use Redux',
+    completed: false,
+    id: 0
+  },
+  {
+    text: 'Use React',
+    completed: false,
+    id: 1
+  }
+];
 
 function todos(state, action) {
-    var state = state || initialState;
-    switch (action.type) {
-        case types.ADD_TODO:
-            state.push({
-                id: state.length,
-                completed: false,
-                text: action.text
+  var state = state || initialState;
 
-            });
-            return state;
-        case types.DELETE_TODO:
-            return state.filter((todo) => {
-                return todo.id !== Number(action.id)
-            });
-        case types.EDIT_TODO:
-            return state.map((todo) =>{
-                todo.id === action.id ? {...todo, ...{text: action.text}} : todo
-            });
-        case types.COMPLETE_TODO:
-            return state.map( (todo) => {
-                Number(action.id) === todo.id ? {...todo, ...{completed: !todo.completed}} : todo
-            });
-        case types.COMPLETE_ALL:
-            var areAllDone = state.every(function (todo) {
-                todo.completed
-            });
-            return state.map((todo) => {
-                return {...todo, ...{completed: areAllDone}}
-            });
-        case types.CLEAR_COMPLETED:
-            return state.filter((todo) => {
-                return todo.completed === false;
-            });
-        default:
-            return state;
-    }
+  switch (action.type) {
+    case types.ADD_TODO:
+      state.push({
+          id: state.length ? state.reduce(function(maxId, todo) { return Math.max(todo.id, maxId); }, -1) + 1 : 0,
+          completed: false,
+          text: action.text
+        });
+      return state;
+    case types.DELETE_TODO:
+      return state.filter(function(todo) {
+        return todo.id !== parseInt(action.id, 10);
+      });
+    case types.EDIT_TODO:
+      return state.map(function(todo) {
+        todo.id === action.id ? Object.assign({}, todo, { text: action.text }) : todo
+      });
+    case types.COMPLETE_TODO:
+      return state.map(function(todo) {
+        return todo.id === parseInt(action.id, 10) ? Object.assign({}, todo, { completed: !todo.completed }) : todo;
+      });
+    case types.COMPLETE_ALL:
+      var areAllMarked = state.every(function(todo) { todo.completed });
+      return state.map(function(todo) {
+        return Object.assign({}, todo, { completed: !areAllMarked });
+      });
+    case types.CLEAR_COMPLETED:
+      return state.filter(function(todo) {
+        return todo.completed === false;
+      });
+
+    default:
+      return state
+  }
 }
-var reducer = Redux.combineReduces({todo});
+
+var rootReducer = Redux.combineReducers({ todos });
