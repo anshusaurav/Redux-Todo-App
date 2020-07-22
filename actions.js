@@ -19,7 +19,8 @@ var actions = {
 	  return { type: types.COMPLETE_ALL }
 	},
 
-	clearComnpleted: function() {
+	clearCompleted: function() {
 	  return { type: types.CLEAR_COMPLETED }
 	}
+	
 };
