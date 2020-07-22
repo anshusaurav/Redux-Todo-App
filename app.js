@@ -5,6 +5,7 @@ var active = document.querySelector(".active");
 var completed = document.querySelector(".completed");
 var clearCompleted = document.querySelector(".clear-completed");
 var completeAll = document.querySelector(".toggle-all");
+var todoCount = document.querySelector(".todo-count");
 const enhancers = Redux.compose(
   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 );
@@ -78,10 +79,20 @@ function render() {
   }
 }
 
+function getLeftCount() {
+  var todos = store.getState();
+  return todos.allTodo.reduce((acc, todo) => {
+    if (todo.completed) return acc;
+    else return acc + 1;
+  }, 0);
+}
 input.addEventListener("change", function (e) {
   var value = e.target.value;
   store.dispatch(actions.addTodo(value));
   e.target.value = "";
+  todoCount.innerHTML = `${getLeftCount()} ${
+    getLeftCount() > 1 ? "items" : "item"
+  } left`;
 });
 
 list.addEventListener("click", function (e) {
@@ -102,6 +113,10 @@ list.addEventListener("click", function (e) {
           break;
       }
   }
+
+  todoCount.innerHTML = `${getLeftCount()} ${
+    getLeftCount() > 1 ? "items" : "item"
+  } left`;
 });
 list.addEventListener("dblclick", function (e) {
   var target = e.target,
@@ -169,9 +184,17 @@ completed.addEventListener("click", function (e) {
 clearCompleted.addEventListener("click", function (e) {
   event.preventDefault();
   store.dispatch(actions.clearCompleted());
+
+  todoCount.innerHTML = `${getLeftCount()} ${
+    getLeftCount() > 1 ? "items" : "item"
+  } left`;
 });
 completeAll.addEventListener("click", function (e) {
   store.dispatch(actions.completeAll());
+
+  todoCount.innerHTML = `${getLeftCount()} ${
+    getLeftCount() > 1 ? "items" : "item"
+  } left`;
 });
 render();
 store.subscribe(render);
