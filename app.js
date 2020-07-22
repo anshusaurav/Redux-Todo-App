@@ -28,6 +28,9 @@ function render () {
               </li>`
       })
     list.innerHTML = html
+    all.classList.remove('selected')
+    completed.classList.remove('selected')
+    active.classList.add('selected')
   } else if (todos.tab === 'Completed') {
     console.log('Completed')
     var html = todos.allTodo
@@ -45,6 +48,10 @@ function render () {
               </li>`
       })
     list.innerHTML = html
+
+    all.classList.remove('selected')
+    active.classList.remove('selected')
+    completed.classList.add('selected')
   } else {
     var html = todos.allTodo.map(function (todo) {
       return `<li id=" ${
@@ -59,6 +66,10 @@ function render () {
 				  </li>`
     })
     list.innerHTML = html
+
+    active.classList.remove('selected')
+    completed.classList.remove('selected')
+    all.classList.add('selected')
   }
 }
 
@@ -83,6 +94,14 @@ list.addEventListener('click', function (e) {
       console.log(id)
       store.dispatch(actions.completeTodo(id))
       break
+  }
+})
+list.addEventListener('dblclick', function (e) {
+  var target = e.target,
+    id
+  switch (target.tagName) {
+    case 'LABEL':
+      id = target.parentNode.parentNode.id
   }
 })
 all.addEventListener('click', function (e) {

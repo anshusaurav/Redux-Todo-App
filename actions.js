@@ -1,26 +1,25 @@
 var actions = {
-	addTodo: function(text) {
-	  return { type: types.ADD_TODO, text }
-	},
+  addTodo: function (text) {
+    return { type: types.ADD_TODO, text }
+  },
 
-	deleteTodo: function(id) {
-	  return { type: types.DELETE_TODO, id }
-	},
+  deleteTodo: function (id) {
+    return { type: types.DELETE_TODO, id }
+  },
 
-	editTodo: function(id, text) {
-	  return { type: types.EDIT_TODO, id, text }
-	},
+  editTodo: function (id, text) {
+    return { type: types.EDIT_TODO, id, text }
+  },
 
-	completeTodo: function(id) {
-	  return { type: types.COMPLETE_TODO, id }
-	},
+  completeTodo: function (id) {
+    return { type: types.COMPLETE_TODO, id }
+  },
 
-	completeAll: function() {
-	  return { type: types.COMPLETE_ALL }
-	},
+  completeAll: function () {
+    return { type: types.COMPLETE_ALL }
+  },
 
-	clearCompleted: function() {
-	  return { type: types.CLEAR_COMPLETED }
-	}
-	
-};
+  clearCompleted: function () {
+    return { type: types.CLEAR_COMPLETED }
+  }
+}
