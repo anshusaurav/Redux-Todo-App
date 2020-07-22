@@ -18,6 +18,12 @@ function todos(state = [], action) {
         return todo.id !== Number(action.id);
       });
 
+    case types.EDIT_TODO:
+      return state.map((todo) => {
+        return todo.id === Number(action.id)
+          ? Object.assign({}, todo, { text: action.text })
+          : todo;
+      });
     case types.COMPLETE_TODO:
       return state.map((todo) => {
         return todo.id === Number(action.id)

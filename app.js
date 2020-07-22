@@ -23,7 +23,8 @@ function render() {
 				<div class="view">
 		  			
 					<input class="toggle" type="checkbox" ${todo.completed ? "checked" : ""} />
-					<label>${todo.text}</label>
+          <label for="edit${todo.id}">${todo.text}</label>
+            <input id="edit${todo.id}"type="text" class="edit-text"/>
 					<button class="destroy"></button>
 				</div>
               </li>`;
@@ -43,7 +44,9 @@ function render() {
 				<div class="view">
 		  			
 					<input class="toggle" type="checkbox" ${todo.completed ? "checked" : ""} />
-					<label>${todo.text}</label>
+          <label for="edit${todo.id}">${todo.text}</label>
+            <input id="edit${todo.id}"type="text" class="edit-text"/>
+            
 					<button class="destroy"></button>
 				</div>
               </li>`;
@@ -61,7 +64,8 @@ function render() {
 					<div class="view">
 						  
 						<input class="toggle" type="checkbox" ${todo.completed ? "checked" : ""} />
-						<label>${todo.text}</label>
+            <label for="edit${todo.id}">${todo.text}</label>
+            <input id="edit${todo.id}"type="text" class="edit-text"/>
 						<button class="destroy"></button>
 					</div>
 				  </li>`;
@@ -83,7 +87,6 @@ input.addEventListener("change", function (e) {
 list.addEventListener("click", function (e) {
   var target = e.target,
     id;
-
   switch (target.tagName) {
     case "BUTTON":
       id = target.parentNode.parentNode.id;
@@ -91,19 +94,59 @@ list.addEventListener("click", function (e) {
       store.dispatch(actions.deleteTodo(id));
       break;
     case "INPUT":
-      id = target.parentNode.parentNode.id;
-      console.log(id);
-      store.dispatch(actions.completeTodo(id));
-      break;
+      switch (target.type) {
+        case "checkbox":
+          id = target.parentNode.parentNode.id;
+          console.log(id);
+          store.dispatch(actions.completeTodo(id));
+          break;
+      }
   }
 });
 list.addEventListener("dblclick", function (e) {
   var target = e.target,
     id;
+  console.log("double click");
+
+  console.dir(event.target);
+
   switch (target.tagName) {
     case "LABEL":
       id = target.parentNode.parentNode.id;
+      target.classList.add("editing");
+      target.nextElementSibling.value = target.textContent;
+      target.nextElementSibling.style.display = "block";
+      target.nextElementSibling.focus();
+      target.style.display = "none";
+      break;
+    case "INPUT":
+      switch (target.type) {
+        case "text":
+          console.log("Edit after double click");
+      }
   }
+});
+list.addEventListener("keyup", function (e) {
+  var target = e.target,
+    id;
+
+  console.log("Change");
+  console.dir(e.target);
+  // switch (target.tagName) {
+  //   case "INPUT":
+  switch (target.type) {
+    case "text":
+      id = target.parentNode.parentNode.id;
+      console.log("editing");
+      console.log(e.keyCode);
+      if (e.keyCode === 13) {
+        const text = target.value;
+        store.dispatch(actions.editTodo(id, text));
+        target.previousElementSibling.style.display = "block";
+        target.style.display = "none";
+      }
+  }
+  // }
 });
 all.addEventListener("click", function (e) {
   event.preventDefault();
