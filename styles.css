@@ -20,7 +20,7 @@ button {
   appearance: none;
   -webkit-font-smoothing: antialiased;
   -moz-font-smoothing: antialiased;
-  font-smoothing: antialiased;
+  /* font-smoothing: antialiased; */
 }
 
 body {
@@ -33,7 +33,7 @@ body {
   margin: 0 auto;
   -webkit-font-smoothing: antialiased;
   -moz-font-smoothing: antialiased;
-  font-smoothing: antialiased;
+  /* font-smoothing: antialiased; */
   font-weight: 300;
 }
 
@@ -102,7 +102,7 @@ input[type="checkbox"] {
   box-sizing: border-box;
   -webkit-font-smoothing: antialiased;
   -moz-font-smoothing: antialiased;
-  font-smoothing: antialiased;
+  /* font-smoothing: antialiased; */
 }
 
 .new-todo {
@@ -121,26 +121,34 @@ input[type="checkbox"] {
 label[for="toggle-all"] {
   display: none;
 }
-
+.header-todo {
+  position: relative;
+}
 .toggle-all {
   position: absolute;
-  top: -55px;
-  left: -12px;
+  top: 0px;
+  left: -10px;
   width: 60px;
   height: 34px;
   text-align: center;
   border: none; /* Mobile Safari */
+  z-index: 10;
 }
 
 .toggle-all:before {
-  content: "✓";
-  font-size: 22px;
-  color: #e6e6e6;
-  padding: 10px 27px 10px 27px;
+  color: #cacacac7;
+  font-weight: 900;
+  font-size: 36px;
+  /* color: forestgreen; */
+  content: " \21AF";
 }
 
 .toggle-all:checked:before {
   color: #737373;
+  font-weight: 900;
+  font-size: 36px;
+  color: forestgreen;
+  content: " \21AF";
 }
 
 .todo-list {
@@ -379,8 +387,8 @@ html .clear-completed:active {
   }
 
   .toggle-all {
-    -webkit-transform: rotate(90deg);
-    transform: rotate(90deg);
+    /* -webkit-transform: rotate(90deg);
+    transform: rotate(90deg); */
     -webkit-appearance: none;
     appearance: none;
   }

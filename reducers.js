@@ -1,4 +1,4 @@
-function todos (state = [], action) {
+function todos(state = [], action) {
   switch (action.type) {
     case types.ADD_TODO:
       return state.concat([
@@ -7,55 +7,50 @@ function todos (state = [], action) {
           completed: false,
           id: state.length
             ? state.reduce((maxId, todo) => {
-                return Math.max(todo.id, maxId)
+                return Math.max(todo.id, maxId);
               }, -1) + 1
-            : 0
-        }
-      ])
+            : 0,
+        },
+      ]);
 
     case types.DELETE_TODO:
-      return state.filter(todo => {
-        return todo.id !== Number(action.id)
-      })
+      return state.filter((todo) => {
+        return todo.id !== Number(action.id);
+      });
 
     case types.COMPLETE_TODO:
-      return state.map(todo => {
+      return state.map((todo) => {
         return todo.id === Number(action.id)
           ? Object.assign({}, todo, { completed: !todo.completed })
-          : todo
-      })
+          : todo;
+      });
 
     case types.COMPLETE_ALL:
-      var areAllMarked = state.every(function (todo) {
-        todo.completed
-      })
-      return {
-        ...state,
-        todoList: state.map(function (todo) {
-          return Object.assign({}, todo, { completed: !areAllMarked })
-        })
-      }
+      return state.map(function (todo) {
+        return Object.assign({}, todo, { completed: !todo.completed });
+      });
+
     case types.CLEAR_COMPLETED:
-      return state.filter(todo => {
-        return !todo.completed
-      })
+      return state.filter((todo) => {
+        return !todo.completed;
+      });
 
     default:
-      return state
+      return state;
   }
 }
 
-function changeTabs (state = 'All', action) {
+function changeTabs(state = "All", action) {
   switch (action.type) {
     case types.ACTIVE:
-      return 'Active'
+      return "Active";
     case types.COMPLETED:
-      return 'Completed'
+      return "Completed";
     case types.ALL:
-      return 'All'
+      return "All";
     default:
-      return state
+      return state;
   }
 }
 
-var rootReducer = Redux.combineReducers({ allTodo: todos, tab: changeTabs })
+var rootReducer = Redux.combineReducers({ allTodo: todos, tab: changeTabs });
